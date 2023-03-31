@@ -1,5 +1,7 @@
+
 function onSubmitTodo(event) {
     event.preventDefault()
+ 
     const todoData = $('#taskform').serializeArray()
     const requestBody = todoData.reduce((obj, item) => {
         obj[item.name] = item.value;

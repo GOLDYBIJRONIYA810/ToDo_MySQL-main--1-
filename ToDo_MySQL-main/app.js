@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const passport = require('passport');
+
 const session = require('express-session')
 require('dotenv').config({})
 
@@ -16,6 +17,7 @@ app.use(
         extended: true
     })
 );
+
 
 //Enable session support
 app.use(session({
@@ -39,7 +41,18 @@ app.use('/', (req, res) => {
     res.render('index')
 })
 
+db.sequelize.authenticate()
+.then(() => {
+    console.log("Connection has been established succesfully.");
+})
+.catch((err) => {
+    console.error('unable to connect to the database' , err);
+});
+
+db.sequelize.sync().then(() => seedData())
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
     console.error(`App is Running at http://localhost:${PORT}/toDo`);
 });
+

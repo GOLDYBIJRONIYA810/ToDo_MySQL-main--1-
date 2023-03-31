@@ -5,6 +5,7 @@ const users = [
     { id: 1, email: 'lavinabijroniya810@gmail.com', password: 'password'}
 ];
 
+
 passport.use(new LocalStrategy({
     usernameField: 'email',
     passwordField: 'password'
@@ -36,4 +37,6 @@ passport.deserializeUser((id, done) => {
     return done(null,user);
 });
 
-module.exports = passport;
+module.exports = {
+  passport
+}
