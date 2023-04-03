@@ -1,8 +1,11 @@
 const express = require('express');
 const app = express();
 const passport = require('passport');
+const db = require('./models');
 
-const session = require('express-session')
+
+const session = require('express-session');
+const seedData = require('./seeders/seedDB');
 require('dotenv').config({})
 
  // passport config
