@@ -28,7 +28,7 @@ async function seedData() {
             firstName: 'Goldy',
             lastName: 'Bijroniya',
             email:'lavinabijroniya810@gmail.com',
-            password: await bcrypt.hash('password' , 8)
+            password: await bcrypt.hash('password' , 8),
             roleId:findAdminRole.id
 
         })
