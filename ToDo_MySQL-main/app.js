@@ -5,7 +5,7 @@ const db = require('./models');
 
 
 const session = require('express-session');
-const seedData = require('./seeders/seedDB');
+const { seedData} = require('./seeders/seedDB');
 require('dotenv').config({})
 
  // passport config
@@ -52,10 +52,12 @@ db.sequelize.authenticate()
     console.error('unable to connect to the database' , err);
 });
 
-db.sequelize.sync().then(() => seedData())
+db.sequelize.sync(
+    {force:true}
+).then(() => seedData())
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
-    console.error(`App is Running at http://localhost:${PORT}/toDo`);
+    console.error(`App is Running at http://localhost:${PORT}`);
 });
 
