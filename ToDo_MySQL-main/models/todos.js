@@ -1,18 +1,18 @@
 const Sequelize = require('sequelize');
 const sequelize = require('./index').sequelize
+const users = require('./users')
 
-const todos = sequelize.define('TODO'  ,  {
+const todos = sequelize.define('todos'  ,  {
     todo: {
         type : Sequelize.STRING,
         allowNULL : false
     },
-    userID : {
-        
-    },
+    
+    
     isDone : {
         type: Sequelize.BOOLEAN
     }
 })
 
-todos.belongsto(users)
+todos.belongsTo(users)
 module.exports = todos

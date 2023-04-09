@@ -1,3 +1,4 @@
+const todos = require("../models/todos")
 
 const TODO = []
 let id = 0
@@ -10,19 +11,23 @@ const index = (req, res) => {
     }
 }
 
-const addTodo = (req, res) => {
+const addTodo = async(req, res) => {
     try {
         const reqData = req.body;
+        const userId = req.user.id;
         if (!reqData.taskinput) {
             return res.send('please fill all mandatory fields') // validation
         }
-        const toDoObj = {
-            toDoId: ++id,
-            toDoData: reqData.taskinput,
-            isToDoDone: false
+        const insertData = await todos.create({
+            todo: reqData.taskinput,
+            userId,
+            isDone: false
+        })
+        if(!insertData){
+            return res.send("Something went wrong");
         }
-        TODO.push(toDoObj) // insert data
-        return res.json({ message: 'ToDo added successfully!', status: true, toDoObj })
+
+        return res.json({ message: 'ToDo added successfully!', status: true, toDoObj : insertData })
     } catch (error) {
         console.error(error)
     }

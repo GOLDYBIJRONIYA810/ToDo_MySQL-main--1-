@@ -4,7 +4,9 @@ function onSubmitTodo(event) {
  
     const todoData = $('#taskform').serializeArray()
     const requestBody = todoData.reduce((obj, item) => {
+        console.log(obj, item)
         obj[item.name] = item.value;
+        console.log('hey' , obj, item)
         return obj;
     }, {});
     if (!todoData) {
@@ -17,9 +19,12 @@ function onSubmitTodo(event) {
         data: todoData,
         success: function (response) {
             console.log("🚀 ~ file: toDo.js:26 ~ response:", response.toDoObj)
-            const row = `<tr><td>${response.toDoObj.toDoId}</td>
-            <td>${response.toDoObj.toDoData}</td>
-            <td><input type=checkbox value=${response.toDoObj.isToDoDone}></td></tr>`
+
+            const row = `<tr><td>${response.toDoObj.id}</td>
+            <td>${response.toDoObj.todo}</td>
+            <<td><input type=checkbox id="checkboxx" title="check" placeholder="tick" onclick= "updateTodo" value=${response.toDoObj.isDone}> &nbsp &nbsp &nbsp
+     
+            </td></tr>`
             $('#toDoBody').append(row)
 
 
@@ -32,4 +37,10 @@ function onSubmitTodo(event) {
         },
     });
 
+}
+
+
+function deleted(event){
+    event.preventDefault()
+    $('#toDoBody').empty()
 }
