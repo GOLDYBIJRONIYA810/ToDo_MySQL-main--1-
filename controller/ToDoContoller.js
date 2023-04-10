@@ -29,6 +29,7 @@ const addTodo = async(req, res) => {
 
         return res.json({ message: 'ToDo added successfully!', status: true, toDoObj : insertData })
     } catch (error) {
+        console.log("cgthcjy");
         console.error(error)
     }
 }
