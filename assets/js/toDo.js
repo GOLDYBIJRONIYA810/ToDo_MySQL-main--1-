@@ -23,7 +23,7 @@ function onSubmitTodo(event) {
             const row = `<tr><td>${response.toDoObj.id}</td>
             <td>${response.toDoObj.todo}</td>
             <<td><input type=checkbox id="checkboxx" title="check" placeholder="tick" onclick= "updateTodo" value=${response.toDoObj.isDone}> &nbsp &nbsp &nbsp
-     
+            <td><input type=checkbox id="checkboxx" title="check" placeholder="tick"  onchange ="checked" value=${response.toDoObj.isDone}> &nbsp &nbsp &nbsp
             </td></tr>`
             $('#toDoBody').append(row)
 
@@ -43,4 +43,12 @@ function onSubmitTodo(event) {
 function deleted(event){
     event.preventDefault()
     $('#toDoBody').empty()
+    $.ajax({
+        type: "DELETE",
+        url : "/toDo/deleteAll",
+        success : function(response){
+            console.log(response.toDoObjjj)
+        }
+    })
 }
+
