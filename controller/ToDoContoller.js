@@ -3,11 +3,15 @@ const todos = require("../models/todos")
 const TODO = []
 let id = 0
 
-const index = (req, res) => {
+const index = async(req, res) => {
     try {
-        return res.render('ToDo')
+        const findAllToDo = await todos.findAll({where : {userId : req.user.id}})
+        console.log("findallworking");
+
+        return res.render('ToDo', {findAllToDo})
     } catch (error) {
         console.error(error)
+        
     }
 }
 
@@ -43,10 +47,24 @@ const deleteAll = async(req,res) => {
     }
 }
 
+const check = async(req,res) => {
+    try{
+        
+        
+         console.log("working");
+         const checked = req.body.check
+         console.log(checked);
+        const result= await todos.update({ isDone: true} , {where: {Id: checked}})
+        return res.json({ message: 'Task completed successfully!', status: true, toDoObjj : result })
+    }catch (error) {
+        console.error(error)
+    }
+}
 
 
 module.exports = {
     index,
     addTodo,
-    deleteAll
+    deleteAll,
+    check
 }

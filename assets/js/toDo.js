@@ -22,8 +22,8 @@ function onSubmitTodo(event) {
 
             const row = `<tr><td>${response.toDoObj.id}</td>
             <td>${response.toDoObj.todo}</td>
-            <<td><input type=checkbox id="checkboxx" title="check" placeholder="tick" onclick= "updateTodo" value=${response.toDoObj.isDone}> &nbsp &nbsp &nbsp
-            <td><input type=checkbox id="checkboxx" title="check" placeholder="tick"  onchange ="checked" value=${response.toDoObj.isDone}> &nbsp &nbsp &nbsp
+            
+            <td><input type=checkbox id="checkboxx" title="check"  data-idd= "${response.toDoObj.id}" placeholder="tick" onclick="check(this)" value=${response.toDoObj.isDone}>
             </td></tr>`
             $('#toDoBody').append(row)
 
@@ -52,3 +52,15 @@ function deleted(event){
     })
 }
 
+function check(_this){
+    console.log("check is working");
+    const check = $(_this).data('idd')
+    $.ajax({
+        type :"PUT",
+        url: "/toDo/check",
+        data: {check},
+        success: function(response){
+            console.log(response);
+        }
+    })
+}
