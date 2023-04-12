@@ -1,3 +1,5 @@
+const { response } = require("express");
+
 
 function onSubmitTodo(event) {
     event.preventDefault()
@@ -6,7 +8,7 @@ function onSubmitTodo(event) {
     const requestBody = todoData.reduce((obj, item) => {
         console.log(obj, item)
         obj[item.name] = item.value;
-        console.log('hey' , obj, item)
+        
         return obj;
     }, {});
     if (!todoData) {
@@ -23,7 +25,9 @@ function onSubmitTodo(event) {
             const row = `<tr><td>${response.toDoObj.id}</td>
             <td>${response.toDoObj.todo}</td>
             
-            <td><input type=checkbox id="checkboxx" title="check"  data-idd= "${response.toDoObj.id}" placeholder="tick" onclick="check(this)" value=${response.toDoObj.isDone}>
+            <td><input type=checkbox  title="check" id="checkboxx" data-idd = "${response.toDoObj.id}" placeholder="tick"  onclick ="check(this)" value=${response.toDoObj.isDone}> &nbsp &nbsp &nbsp
+            <button type = submit id = "button2" onclick = "updateTodo(this)" data-update = "${response.toDoObj.id}"> Update </button>
+     
             </td></tr>`
             $('#toDoBody').append(row)
 
@@ -63,4 +67,19 @@ function check(_this){
             console.log(response);
         }
     })
+}
+function updateTodo(_this){
+   
+    console.log("chal rha h")
+    const update = $(_this).data('update')
+    $.ajax({
+        type :"PUT",
+        url: "/toDo/update",
+        data: {update},
+        success:  function(response){
+            $('#taskinput').val(response.toDoObj1.todo)
+            console.log("hey")
+            console.log(response);
+        }
+   })
 }

@@ -48,9 +48,9 @@
                 </tr>
             </thead>
             <tbody id="toDoBody">
-              <% findAllToDo.forEach((index) => {%>
-                <%= index%>
-                <tr>
+                <% findAllToDo.forEach((index) =>{ %>
+                
+                    <tr>
                     <td>
                         <%= index.id%>
                     </td>
@@ -58,11 +58,14 @@
                         <%= index.todo%>
                     </td>
                     <td>
-                        <%= index.isDone%>
-                    </td>
-                </tr>
-
-             <% })%>
+                        
+     
+                        <input type="checkbox" title="check" id="checkboxx" onclick="check(this)"
+                        <%= index.isDone? 'checked':'' %> >
+    
+                    </td></tr>
+        
+                  <% })%>
             </tbody>
         </table>
                 </div>
