@@ -65,12 +65,19 @@ const update  = async(req,res) => {
     try{
 
         const updatedId = req.body.update
-        if(response.toDoObj.isDone == false){
-        console.log(updatedId);
-        const up = await todos.findOne( {where: {id : updatedId}})
-        return res.json({ message: 'Task completed successfully!', status: true, toDoObj1 : up })}
-        else{console.log("isDone is true")}
-    }catch (error) {
+       
+        const up = await todos.findOne({where: {id : updatedId}})
+        if(!up.isDone){
+
+        return res.json({ message: 'Task in updation !', status: true, toDoObj1 : up })
+       }
+
+
+    else{console.log("task is already completed")}
+
+    }
+       
+    catch (error) {
         console.error(error)
     }
 }

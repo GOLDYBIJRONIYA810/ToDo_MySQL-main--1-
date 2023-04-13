@@ -1,6 +1,3 @@
-const { response } = require("express");
-
-
 function onSubmitTodo(event) {
     event.preventDefault()
  
@@ -70,16 +67,19 @@ function check(_this){
 }
 function updateTodo(_this){
    
-    console.log("chal rha h")
+    console.log("working")
     const update = $(_this).data('update')
+    console.log(update,"message updated")
     $.ajax({
         type :"PUT",
         url: "/toDo/update",
         data: {update},
         success:  function(response){
-            $('#taskinput').val(response.toDoObj1.todo)
-            console.log("hey")
             console.log(response);
+            $('#taskinput').val(response.toDoObj1.todo)
+            $('#tasksubmit').val('UPDATE')
+   
+            
         }
    })
 }
