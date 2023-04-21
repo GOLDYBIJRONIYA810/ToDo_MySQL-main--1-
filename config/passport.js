@@ -2,13 +2,18 @@ const passport = require('passport');
 const Localstrategy = require('passport-local') .Strategy;
 const { validatePassword } = require('../controller/commonController')
 const user = require('../models/users')
- console.log("passport called");
+ 
+console.log("passport called");
 passport.use(new Localstrategy({
     usernameField: 'email',
     passwordField: 'password'
 },
    async (email , password , done) => {
+      console.log( email, password);
+  
      const findUser = await user.findOne({email , include: 'role'})
+     console.log("user");
+
      if(!findUser)
      {
         return done(null , false , {message:"incorrect email."});
@@ -17,6 +22,9 @@ passport.use(new Localstrategy({
         
         return done(null , false , {message: "incorrect password"});
      }
+     if(!validatePassword( password , findUser.password)) {
+      return done(null, false , { message: 'Incorrect password'});
+  } console.log("user2");
      
      const returnUser = {
         id: findUser.id,

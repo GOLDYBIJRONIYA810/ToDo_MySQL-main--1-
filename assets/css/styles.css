@@ -169,4 +169,18 @@ footer{
 	border-color: black;
 }
 
+#updatetasksubmit{
+	font-size: 1.7rem;
+	font-weight: 700;
+	background-image: linear-gradient(to right,rgb(145, 33, 160), rgb(245, 56, 232));
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	cursor: pointer;
+	transition: 0.4s;
+}
+
+.form{
+	display: none;
+	pointer-events: none;
+}
 

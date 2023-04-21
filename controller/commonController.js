@@ -7,7 +7,7 @@ const hashPassword = (password) => {
 
 const validatePassword = (inputPassword, existingPasswordHash) => {
     const inputHash = hashPassword(inputPassword)
-    
+    console.log(inputPassword ,existingPasswordHash );
     return timingSafeEqual(Buffer.from(inputHash), Buffer.from(existingPasswordHash))
 }
 module.exports = {

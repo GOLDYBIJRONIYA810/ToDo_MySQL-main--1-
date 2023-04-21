@@ -1,4 +1,4 @@
-const { response } = require("express")
+
 const todos = require("../models/todos")
 
 const TODO = []
@@ -6,13 +6,10 @@ let id = 0
 
 const index = async(req, res) => {
     try {
-        const findAllToDo = await todos.findAll({where : {userId : req.user.id}})
-        console.log("findallworking");
-
-        return res.render('ToDo', {findAllToDo})
+const findAllToDo = await todos.findAll({where :{ userId : req.user.id}})
+        return res.render('ToDo',{findAllToDo})
     } catch (error) {
         console.error(error)
-        
     }
 }
 
@@ -20,11 +17,11 @@ const addTodo = async(req, res) => {
     try {
         const reqData = req.body;
         const userId = req.user.id;
-        if (!reqData.taskinput) {
+        if (!reqData.todoData) {
             return res.send('please fill all mandatory fields') // validation
         }
         const insertData = await todos.create({
-            todo: reqData.taskinput,
+            todo: reqData.todoData,
             userId,
             isDone: false
         })
@@ -34,13 +31,13 @@ const addTodo = async(req, res) => {
 
         return res.json({ message: 'ToDo added successfully!', status: true, toDoObj : insertData })
     } catch (error) {
-        console.log("cgthcjy");
+        
         console.error(error)
     }
 }
 const deleteAll = async(req,res) => {
     try{
-        console.log("reached");
+        
         const deleted = await todos.destroy({where: {}, truncate: true})
         return res.json({ message : 'Todo Deleted' , status:true ,toDoObjjj : deleted})
     } catch(error){
@@ -61,31 +58,47 @@ const check = async(req,res) => {
 
     }
 }
-const update  = async(req,res) => {
+
+const getSingleToDo = async(req,res)=>{
     try{
+        const todoId = req.query.update;
+        console.log(todoId);
+        const getAToDo = await todos.findOne({where:{id:todoId}})
+        if(!getAToDo.isDone){
+        console.log(getAToDo);
+        return res.json({message:"update task working",status:true,toDoObj:getAToDo})}
 
-        const updatedId = req.body.update
-       
-        const up = await todos.findOne({where: {id : updatedId}})
-        if(!up.isDone){
-
-        return res.json({ message: 'Task in updation !', status: true, toDoObj1 : up })
-       }
-
-
-    else{console.log("task is already completed")}
-
-    }
-       
-    catch (error) {
+   
+        
+    }catch (error) {
         console.error(error)
     }
 }
+
+const updatedTask = async(req,res)=>{
+    try{
+        console.log(req.body)
+        
+        const getUpdatedTodoId = req.body.todoId;
+        console.log("response from updated task",getUpdatedTodoId)
+
+
+        console.log(getUpdatedTodoId);
+        const updateTodo = await todos.update({todo: req.body.value},{where:{id:getUpdatedTodoId}})
+        return res.json({message:"update on screen working",status:true,updatedObj:updateTodo})
+    }
+    catch(error){
+            console.log(error)
+    }
+}
+ 
+
 
 module.exports = {
     index,
     addTodo,
     deleteAll,
     check,
-    update
+    updatedTask,
+    getSingleToDo
 }

@@ -1,30 +1,18 @@
 function onSubmitTodo(event) {
     event.preventDefault()
  
-    const todoData = $('#taskform').serializeArray()
-    const requestBody = todoData.reduce((obj, item) => {
-        console.log(obj, item)
-        obj[item.name] = item.value;
-        
-        return obj;
-    }, {});
-    if (!todoData) {
-        $('#errorMsg').html('Please fill all Mandatory Fields')
-        return;
-    }
+    const todoData = $('#taskform').val()
+    
     $.ajax({
         type: "POST",
         url: "/toDo/addToDo",
-        data: todoData,
+        data: {todoData},
         success: function (response) {
             console.log("🚀 ~ file: toDo.js:26 ~ response:", response.toDoObj)
-
-            const row = `<tr><td>${response.toDoObj.id}</td>
-            <td>${response.toDoObj.todo}</td>
-            
-            <td><input type=checkbox  title="check" id="checkboxx" data-idd = "${response.toDoObj.id}" placeholder="tick"  onclick ="check(this)" value=${response.toDoObj.isDone}> &nbsp &nbsp &nbsp
-            <button type = submit id = "button2" onclick = "updateTodo(this)" data-update = "${response.toDoObj.id}"> Update </button>
-     
+            const row = `<tr><td>${response.toDoObj.id} </td>
+            <td id="upy">${response.toDoObj.todo}</td>
+            <td><input type=checkbox  title="check" id="checkboxx" data-id = "${response.toDoObj.id}" placeholder="tick"  onclick ="checkedBox(this)" value=${response.toDoObj.isDone}> &nbsp &nbsp &nbsp
+            <button id="btn" onclick = "getTodo(this)" data-todoid = "${response.toDoObj.id}">Update</button>
             </td></tr>`
             $('#toDoBody').append(row)
 
@@ -53,9 +41,10 @@ function deleted(event){
     })
 }
 
-function check(_this){
+
+function checkedBox(_this){
     console.log("check is working");
-    const check = $(_this).data('idd')
+    const check = $(_this).data('id')
     $.ajax({
         type :"PUT",
         url: "/toDo/check",
@@ -65,21 +54,59 @@ function check(_this){
         }
     })
 }
-function updateTodo(_this){
-   
-    console.log("working")
-    const update = $(_this).data('update')
-    console.log(update,"message updated")
+function getTodo(_this){
+    console.log("updateTodo working", 
+    _this);
+    const update = $(_this).data('todoid');
     $.ajax({
-        type :"PUT",
-        url: "/toDo/update",
-        data: {update},
-        success:  function(response){
-            console.log(response);
-            $('#taskinput').val(response.toDoObj1.todo)
-            $('#tasksubmit').val('UPDATE')
-   
-            
-        }
-   })
+    type:"GET",
+    url: "/toDo/getSingleToDo",
+    data:{update},
+    success :function(response){
+        console.log(response);
+        $('#taskinput').val(response.toDoObj.todo)
+        $('#tasksubmit').val("Update Task") ;
+        $('#submitTodo').html(`
+        <input type = "button" id="updatetasksubmit" value="Update Task" data-todoid=${response.toDoObj.id} onclick="updatetask(this)">`)
+
+
+    }
+    
+})
 }
+function updatetask(_this){
+
+    
+    const todoId = $(_this).data('todoid');
+    const value = $("#taskinput").val();
+   
+    console.log(todoId);
+    $.ajax({
+        type:"PUT",
+        url:"/toDo/updatedTask",
+      
+        data:{todoId,value},
+        success:
+        function(response){
+            console.log(response);
+            window.location.reload();
+        }
+    
+    })
+    }
+
+function userProfile(event){
+    event.preventDefault()
+    document.querySelector('#header').style.display = "none";
+    document.querySelector('#header').style.pointerEvents = "none";
+     document.querySelector('#main').style.display = "none";
+     document.querySelector('#main').style.pointerEvents = "none";
+     document.querySelector('.form').style.display = "block";
+     document.querySelector('.form').style.pointerEvents = "all";
+    $('#userButton').val("Home");
+    $('#buTTon').html(`<input id="homeButton" type="submit" value="Home" onclick="gotoHome(event)">`);
+}
+function gotoHome(event){
+    window.location.reload();
+}           
+          

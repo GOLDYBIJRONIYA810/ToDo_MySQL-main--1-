@@ -1,17 +1,12 @@
 
-
+const { config } = require('dotenv');
 const Sequelize = require('sequelize');
+require('dotenv').config({})
 const db = {};
 require('dotenv').config({})
 
-let sequelize;
-// if(config.use_env_variable) {
-//     sequelize = new Sequelize(process.env[config.use_env_variable] , config);
-
-// }
-// else 
-
-    sequelize = new Sequelize(process.env.DATABASE , process.env.NAME , process.env.PASSWORD , {
+console.log("userss,", process.env.NAME , process.env.DATABASE , process.env.PASSWORD, process.env.HOST)
+let sequelize = new Sequelize(process.env.DATABASE , process.env.NAME , process.env.PASSWORD , {
         host: process.env.HOST,
         dialect: 'mysql'
     });
