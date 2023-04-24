@@ -1,11 +1,13 @@
 function onSubmitTodo(event) {
     event.preventDefault()
  
-    const todoData = $('#taskform').val()
+    const todoData = $('#taskinput').val()
+   console.log(todoData);
+    
     
     $.ajax({
         type: "POST",
-        url: "/toDo/addToDo",
+        url: "/toDo/addTodo",
         data: {todoData},
         success: function (response) {
             console.log("🚀 ~ file: toDo.js:26 ~ response:", response.toDoObj)
@@ -108,5 +110,24 @@ function userProfile(event){
 }
 function gotoHome(event){
     window.location.reload();
-}           
+}        
+
+function SaveChanges(event){
+    event.preventDefault();
+    const newEmail = $('#exampleInputEmail1').val();
+    const newFname =  $('#exampleInputfirstName').val();
+    const newLname =  $('#exampleInputlastname').val();
+    // const newPass =  $('#exampleInputPassword1').val();
+    console.log("sejal")
+    $.ajax({
+        type:"PUT",
+        url:"/toDo/changeUserDetails",
+
+        data:{newEmail,newFname,newLname},
+        success:
+        function(response){
+            console.log(response);
+        }
+        })
+}          
           
